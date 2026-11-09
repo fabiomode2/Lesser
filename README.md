@@ -1,125 +1,86 @@
 <p align="center">
-  <img src="lesser/assets/images/icon.png" alt="Logo de Lesser" width="100" />
+  <img src="lesser/assets/images/icon.png" alt="Lesser" width="96" />
 </p>
 
-<h1 align="center">Lesser 📱</h1>
+<h1 align="center">Lesser</h1>
 
 <p align="center">
-  <strong>Menos scroll. Más vida.</strong><br/>
-  Una app desarrollada con React Native y Firebase para incitarte a reducir tu tiempo de uso del móvil.
+  App Android para reducir el tiempo de pantalla degradando la experiencia de uso en vez de bloquear aplicaciones.<br/>
+  Proyecto del <strong>Impacthon 2026</strong> (ETSE, USC).
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Expo-54-blue?logo=expo" />
-  <img src="https://img.shields.io/badge/Firebase-Firestore%20%7C%20Auth%20%7C%20Functions-orange?logo=firebase" />
-  <img src="https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript" />
-  <img src="https://img.shields.io/badge/license-MIT-green" />
-</p>
+## La idea
 
----
+Los bloqueos duros funcionan al principio, pero la frustración de no poder abrir una app termina en desinstalación. Lesser no impide abrir nada: deja que uses el móvil, pero la experiencia empeora de forma progresiva cuanto más tiempo pasas. La decisión de parar es del usuario.
 
-## Características principales
+La fricción se aplica con APIs nativas de Android (volumen, VPN local, filtros de pantalla y cámara), sin root, y se divide en tres niveles.
 
-| Característica | Descripción |
-|---|---|
-| **Rachas diarias** | Mantén tu racha cumpliendo tus objetivos de uso día a día. |
-| **Estadísticas de uso** | Consulta tu actividad con gráficos de 24 horas, semana, mes y hasta 6 meses. |
-| **Comparte con tus amigos** | Sigue a tus amigos y mira su progreso en tiempo real. |
-| **Clasificación** | Compite con otros usuarios y descubre en qué percentil estás. |
-| **Calendario de uso** | Visualiza tu actividad diaria con un mapa de calor al estilo GitHub. |
-| **Autenticación con Firebase** | Inicio de sesión seguro con usuario y contraseña. |
-| **Modo oscuro** | Cambio automático entre modo claro y oscuro. |
-| **3 modos de desafío** | Elige entre Soft, Mid o Hardcore según el nivel que quieras. |
+## Modos
 
----
+### Soft
 
-## Estructura del repositorio
+- **Silencios aleatorios.** Cada 3–5 minutos de uso, el audio multimedia se corta entre 20 y 40 segundos. Se activa a partir de un umbral de uso.
+- **"Wifi malo".** Una VPN local añade latencia solo a las apps que más enganchan (Instagram, TikTok, X, Facebook, Snapchat, Reddit y YouTube). El retardo sube de 200 ms a 4 s a lo largo de una hora de sesión: el contenido sigue cargando, pero cada vez tarda más.
 
-```bash
-IMPACKTHON/
-├── .env.example                  # Plantilla para variables EXPO_PUBLIC_
-├── .gitignore
-├── README.md
-│
-├── backend/                      # Raíz del proyecto Firebase
-│   ├── .firebaserc               # Proyecto Firebase activo
-│   ├── firebase.json             # Configuración de Firestore y Functions
-│   ├── firestore.rules           # Reglas de seguridad para producción
-│   ├── firestore.indexes.json    # Índices compuestos
-│   ├── README.md
-│   └── functions/
-│       ├── package.json          # Scripts de compilación en TypeScript
-│       ├── tsconfig.json
-│       └── src/
-│           ├── index.ts          # Punto de entrada: exporta todas las funciones
-│           ├── users.ts          # onUserDeleted → limpieza de datos en Firestore
-│           └── social.ts         # onFollowUser / onUnfollowUser como funciones callable
-│
-└── lesser/                       # App en Expo / React Native
-    ├── app/                      # Pantallas con Expo Router
-    │   ├── (tabs)/               # Pestañas inferiores (Inicio, Social, Ajustes)
-    │   ├── _layout.tsx
-    │   ├── auth.tsx              # Inicio de sesión / Registro
-    │   ├── onboarding.tsx        # Selección inicial del modo
-    │   ├── stats.tsx             # Estadísticas detalladas
-    │   ├── followers.tsx         # Lista de seguidores en tiempo real
-    │   ├── friend/[uid].tsx      # Vista del perfil de un amigo
-    │   └── modal.tsx
-    │
-    ├── components/
-    │   ├── home/
-    │   ├── settings/
-    │   │   └── AccountSection.tsx  # Eliminación de cuenta y ajustes
-    │   ├── social/
-    │   └── ui/
-    │
-    ├── constants/
-    │   ├── firebase.config.ts    # Configuración pública del cliente Firebase
-    │   ├── i18n.ts               # Textos de la interfaz (EN + ES) y helper t()
-    │   └── theme.ts              # Colores del tema (claro / oscuro)
-    │
-    ├── hooks/
-    │   ├── useAuth.tsx           # Contexto y estado de Firebase Auth
-    │   ├── useSocial.ts          # Seguir/dejar de seguir con listeners en tiempo real
-    │   └── use-color-scheme.ts
-    │
-    └── services/
-        ├── firebase.ts           # Inicialización de Firebase (usa variables EXPO_PUBLIC_)
-        ├── auth.ts               # Login / Registro / Logout / Eliminar cuenta
-        ├── social.ts             # Firestore: seguir, dejar de seguir, feed y búsqueda
-        ├── settings.ts           # Preferencias del usuario
-        └── usage.ts              # Utilidades para datos de tiempo de pantalla
-```
+### Mid
 
----
+- Todo lo de Soft.
+- **Parpadeo de pantalla.**
+- **Monocromo progresivo.** Un filtro reduce la saturación de la pantalla a medida que acumulas uso, hasta dejarla en blanco y negro.
 
-## Para empezar
+### Hardcore
 
-### Requisitos previos
+- Todo lo de Mid.
+- **Selfie sin aviso.** Hace una foto en un momento aleatorio para pillarte en una mala postura.
+- **Launcher minimalista.** Pendiente.
 
-- Node.js 20 o superior
-- [Expo CLI](https://docs.expo.dev/get-started/installation/)
-- Una cuenta de [Firebase](https://console.firebase.google.com/)
+## Resto de la app
 
-### 1. Clonar el repositorio e instalar dependencias
+- **Estadísticas reales** vía `UsageStatsManager`: tiempo de pantalla, apps más usadas, mapa de calor tipo GitHub, rachas y objetivo diario.
+- **Social**: sigue a amigos, feed de actividad y ranking por percentil.
+- **Lista blanca** para excluir apps necesarias (mensajería, mapas, banca...).
+- **Mensajes con Gemini** generados a partir de tus estadísticas.
+- **Firebase**: Auth, Firestore, Realtime Database y Functions (limpieza de datos al borrar la cuenta).
+- **Español e inglés**, tema claro/oscuro.
+
+## Stack
+
+Expo 54 · React Native 0.81 · TypeScript · Firebase · Kotlin/Java para los módulos nativos.
+
+## Ejecutar
+
+Requisitos: Node 20+, Android Studio y un proyecto de Firebase.
 
 ```bash
-git clone https://github.com/your-org/IMPACKTHON.git
-cd IMPACKTHON/lesser
+git clone https://github.com/fabiomode2/Lesser.git
+cd Lesser/lesser
 npm install
+npm run android
 ```
 
-### 2. Ejecutar la app
+La app trae una configuración pública de Firebase por defecto. Para usar otro proyecto o la clave de Gemini, copia el `.env.example` a `lesser/.env` y rellena los valores.
 
-```bash
-npm run start          # Inicia el servidor de desarrollo de Expo
-npm run android        # Abre el emulador de Android
-```
+Hace falta un build nativo: Expo Go no incluye el módulo de estadísticas de uso ni las APIs de fricción.
 
-### 3. Desplegar reglas e índices de Firestore
+Desplegar backend:
 
 ```bash
 cd backend
-firebase login
-firebase deploy --only firestore
+firebase deploy --only firestore,functions
 ```
+
+## Estructura
+
+```text
+lesser/                App Expo / React Native
+├── app/               Pantallas (Expo Router)
+├── components/        UI: inicio, social y ajustes
+├── services/          Firebase, uso, ajustes y tareas en segundo plano
+├── modules/           Módulo nativo de estadísticas de uso
+└── android/           Proyecto Android
+backend/               Reglas, índices y Cloud Functions
+```
+
+## Estado
+
+Prototipo de hackathon, no un producto terminado. En `main` funcionan las cuentas, las estadísticas, el social y los ajustes. Las medidas de fricción están implementadas de forma parcial y repartidas entre `main` y ramas sin fusionar (`leer-tiempos`, `Monocromo`, `background-task-fab`). El launcher minimalista no está hecho.

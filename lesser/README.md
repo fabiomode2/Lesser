@@ -1,23 +1,29 @@
-# Lesser
+# Lesser — app
 
-Aplicación para reducir el uso del móvil.
+App Android en Expo / React Native. La idea, los modos de fricción y el resto de documentación están en el [README raíz](../README.md).
 
-La principal diferencia entre Lesser y otras apps es que, mientras otras apps ponen bloqueos duros he intraspasables que impiden al usuario acceder a aplicaciones, Lesser empeora la calidad de usuario de las aplicaciones progresivamente con el tiempo que se pasa en ellas con la intención de que el usuario decida por si mismo dejar de usar el móvil. 
+## Ejecutar
 
-Este enfoque se comporta mejor a largo plazo ya que los bloqueos duros, pasados los primeros momentos de motivación, al ser tan inmediatos, causan la suficiente frustación que provoca la mayoría de usuarios decidan desinstalar la app para que deje de dar el coñazo.
+```bash
+npm install
+npm run android
+```
 
-Las principales medidas que propone Lesser estan divididas en 3 bloques:
+Requiere Node 20+, Android Studio y un build nativo (Expo Go no incluye los módulos de Android).
 
-##### Soft
-- Periodos aleatorios donde se pierde el sonido
-- Ralentización de la velocidad del internet para disminuir la frecuencia de carga de contenido
+Para usar un proyecto de Firebase propio o la clave de Gemini:
 
+```bash
+cp ../.env.example .env
+# rellenar EXPO_PUBLIC_*
+```
 
-#### Mid
-- Parpadeo de pantalla 
-- Progresión a una gama monocroma
+## Scripts
 
-
-#### Hardcore
-- Realización de un selfie sin avisar donde se pille al usuario en una posición poco óptima
-- Launcher de sistema minimalista (futuro)
+```bash
+npm run start          # servidor de desarrollo de Expo
+npm run android        # build y ejecución en Android
+npm run lint           # ESLint
+npm run build:apk      # APK de debug
+npm run build:release-apk
+```
